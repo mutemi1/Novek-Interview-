@@ -1,13 +1,14 @@
 #include <avr/io.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
-#include <string>
+//#include <string>
 
 #define uart_buffer_size 1024
 
 char uart_0_buffer[uart_buffer_size];
 int buffer_position=0;
-
+char resp[20];
+int send_value=0;
 int main(void )
 {
   sei();
@@ -15,26 +16,53 @@ int main(void )
   
 
   while(1){
-   
+
+     if(send_value==0){
       uart_0_clear_buffer();
+      strcpy (resp,"0");
       uart_0_write("00000101\r\n"); ///turn pin 2 on 
-      _delay_ms(1000);
-      
+        _delay_ms(1000);
+      }
+     else if(send_value==1){
       uart_0_clear_buffer();
+      strcpy (resp,"0");
       uart_0_write("00001001\r\n"); ///turn pin 4 on
-      _delay_ms(1000);
+        _delay_ms(1000);
+      }
+     else if(send_value==2){
       uart_0_clear_buffer();
+      strcpy (resp,"0");
       uart_0_write("00001011\r\n"); ///turn pin 5 on
-      _delay_ms(1000);
+        _delay_ms(1000);
+      }
+     else if(send_value==3){
       uart_0_clear_buffer();
+      strcpy (resp,"0");
       uart_0_write("00000100\r\n"); ///turn pin 2 off
-      _delay_ms(1000);
+        _delay_ms(1000);
+      }
+     else if(send_value==4){
       uart_0_clear_buffer();
+      strcpy (resp,"0");
       uart_0_write("00001000\r\n"); ///turn pin 2 off
-      _delay_ms(1000);
-      uart_0_clear_buffer();
+        _delay_ms(1000);
+      }
+     else if(send_value==5){
+       uart_0_clear_buffer();
+       strcpy (resp,"0");
       uart_0_write("00001010\r\n"); ///turn pin 2 off
-      _delay_ms(1000);
+        _delay_ms(1000);
+      }
+      
+      if(send_value>5)
+      {
+        send_value=0;
+        }
+      if(strstr(uart_0_buffer,resp)){
+      send_value++;
+      
+      }
+
      
  }
  
